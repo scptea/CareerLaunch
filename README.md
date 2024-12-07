@@ -28,6 +28,9 @@ To run **CareerLaunch** locally, follow the steps below:
 
 ## 🌐 Deployment
 The platform is deployed on Netlify for easy access.
+You can check out the live version of the project here:
+
+🔗 https://kfupmcareerlaunch.netlify.app
 
 ## 🤝 Contributing
 Although external contributions are not currently being accepted, we encourage you to explore the codebase and provide feedback!

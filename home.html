@@ -1,0 +1,138 @@
+<!-- home.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerLaunch - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slant {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+        }
+
+        .slant-top {
+            clip-path: polygon(0 15%, 100% 0, 100% 100%, 0% 100%);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module" src="auth.js"></script>
+</head>
+
+<body class="min-h-screen bg-gray-100 font-['Montserrat']" data-requires-auth="false">
+    <header class="relative">
+        <div class="absolute inset-0 bg-black slant overflow-hidden">
+            <img src="https://math.kfupm.edu.sa/images/default-source/default-album/b5-tower-hd36690806-d10e-4d28-87e2-f143d643a21e.tmb-banner.jpg?Culture=en&sfvrsn=2d78144e_2"
+                alt="KFUPM Tower" class="object-cover w-full h-full opacity-60">
+        </div>
+        <nav class="relative z-10">
+            <div class="max-w-7xl mx-auto px-6 py-8 flex justify-between items-center">
+                <a href="home.html" class="text-2xl font-bold text-white">
+                    CareerLaunch
+                </a>
+                <div class="space-x-8">
+                    <div id="guestNav">
+                        <a href="cv-builder.html" class="text-white hover:underline">CV Builder</a>
+                        <a href="job-search.html" class="text-white hover:underline">Job Search</a>
+                        <a href="login.html"
+                            class="bg-white text-sky-600 px-6 py-2 rounded-full shadow-md hover:bg-gray-200 transition duration-300">Login</a>
+                    </div>
+                    <div id="userNav" class="hidden">
+                        <a href="cv-builder.html" class="text-white hover:underline">CV Builder</a>
+                        <a href="job-search.html" class="text-white hover:underline">Job Search</a>
+                        <button onclick="handleLogout()"
+                            class="bg-white text-red-600 px-6 py-2 rounded-full shadow-md hover:bg-gray-200 transition duration-300">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="max-w-7xl mx-auto px-6 py-32 relative z-10">
+            <div class="w-full md:w-1/2">
+                <h1 class="text-5xl font-bold text-white mb-6">
+                    Launch Your <span class="text-yellow-400">Career</span> with Confidence
+                </h1>
+                <p class="text-xl text-white/90 mb-8">
+                    Build your CV, find job opportunities, and kickstart your professional journey at KFUPM.
+                </p>
+
+                <div id="signUpBtn" class="mb-6">
+                    <a href="signup.html"
+                        class="bg-yellow-400 text-gray-900 px-8 py-4 rounded-full text-lg font-semibold inline-block hover:bg-yellow-500 transition duration-300">
+                        Sign Up Now
+                    </a>
+                </div>
+
+                <div id="studentDashboardBtn" class="hidden">
+                    <a href="student-dashboard.html"
+                        class="bg-emerald-500 text-white px-8 py-4 rounded-full text-lg font-semibold inline-block hover:bg-emerald-600 transition duration-300">
+                        Student Dashboard <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                <div id="employerDashboardBtn" class="hidden">
+                    <a href="employer-dashboard.html"
+                        class="bg-blue-500 text-white px-8 py-4 rounded-full text-lg font-semibold inline-block hover:bg-blue-600 transition duration-300">
+                        Employer Dashboard <i class="fas fa-building ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="max-w-7xl mx-auto px-6 py-24">
+            <div class="slant-top bg-white p-20 shadow-xl rounded-2xl">
+                <h2 class="text-4xl font-bold mb-12 text-center">
+                    How It Works
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                    <div class="text-center">
+                        <i class="fas fa-file-alt text-4xl text-sky-500 mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-2">
+                            Create Your CV
+                        </h3>
+                        <p class="text-gray-600">
+                            Use our intuitive CV builder to craft a compelling and professional CV that stands out.
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-search text-4xl text-emerald-500 mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-2">
+                            Find Job Opportunities
+                        </h3>
+                        <p class="text-gray-600">
+                            Discover a wide range of job listings tailored to your skills and preferences.
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-paper-plane text-4xl text-yellow-500 mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-2">
+                            Apply with Ease
+                        </h3>
+                        <p class="text-gray-600">
+                            Submit your applications and track your progress directly through our platform.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto py-12 px-6">
+            <div class="text-center">
+                <p>
+                    &copy; 2024 CareerLaunch - KFUPM. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="js/home.js"></script>
+</body>
+
+</html>

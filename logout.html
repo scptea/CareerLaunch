@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logged Out - CareerLaunch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'academic': {
+                            primary: '#00573C',    // Darker navy
+                            secondary: '#8B4513',   // Brown accent
+                            tertiary: '#AE8338',    // Bright gold
+                            light: '#F5F5F5',      // Light background
+                            dark: '#00573C',       // Darker navy
+                            warm: '#FFC107'        // Gold accent
+                        }
+                    },
+                    fontFamily: {
+                        'serif': ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="min-h-screen bg-academic-light">
+    <nav class="bg-academic-primary text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="home.html" class="text-2xl font-serif font-bold">
+                        <span class="text-academic-tertiary">Career</span><span class="text-white">Launch</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-lg mx-auto mt-20 px-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center">
+            <div class="mb-6">
+                <i class="fas fa-check-circle text-5xl text-academic-tertiary"></i>
+            </div>
+            <h1 class="text-2xl font-serif font-bold text-academic-primary mb-4">Successfully Logged Out</h1>
+            <p class="text-gray-600 mb-8">Thank you for using CareerLaunch. You have been safely logged out.</p>
+            <a href="login.html"
+                class="inline-flex items-center justify-center bg-academic-tertiary text-white px-6 py-2.5 rounded-lg hover:bg-academic-primary transition-colors">
+                <i class="fas fa-sign-in-alt mr-2"></i>
+                Log In Again
+            </a>
+        </div>
+    </main>
+
+    <footer class="bg-academic-primary text-white fixed bottom-0 w-full">
+        <div class="max-w-7xl mx-auto py-8 px-6">
+            <div class="text-center text-academic-tertiary/90">
+                © 2024 CareerLaunch - KFUPM. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Clear any remaining session data
+        window.addEventListener('load', () => {
+            localStorage.clear();
+            sessionStorage.clear();
+        });
+    </script>
+</body>
+
+</html>

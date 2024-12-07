@@ -1,0 +1,271 @@
+<!-- student-dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerLaunch - Student Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'academic': {
+                            primary: '#00573C',    // Darker navy
+                            secondary: '#8B4513',   // Brown accent
+                            tertiary: '#AE8338',    // Bright gold
+                            light: '#F5F5F5',      // Light background
+                            dark: '#00573C',       // Darker navy
+                            warm: '#FFC107'        // Gold accent
+                        }
+                    },
+                    fontFamily: {
+                        'serif': ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .slant {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+        }
+
+        .slant-top {
+            clip-path: polygon(0 15%, 100% 0, 100% 100%, 0% 100%);
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="min-h-screen bg-academic-light" data-requires-auth="true">
+    <!-- Debug Panel -->
+    <div id="debugPanel"
+        class="hidden mb-4 p-4 bg-yellow-100 rounded text-xs fixed top-0 right-0 m-4 max-w-lg max-h-screen overflow-auto z-50">
+        <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold">Debug Information</h3>
+            <button id="clearDebug" class="text-xs text-red-500 hover:text-red-700">Clear Log</button>
+        </div>
+        <pre id="debugLog" class="whitespace-pre-wrap"></pre>
+    </div>
+
+
+    <nav class="bg-academic-primary text-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="home.html" class="text-2xl font-serif font-bold">
+                        <span class="text-academic-tertiary">Career</span><span class="text-white">Launch</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-8">
+                    <a href="cv-builder.html"
+                        class="text-academic-light hover:text-academic-tertiary transition-colors font-medium">CV
+                        Builder</a>
+                    <a href="job-board.html"
+                        class="text-academic-light hover:text-academic-tertiary transition-colors font-medium">Job
+                        Search</a>
+                    <span
+                        class="px-4 py-1.5 bg-academic-tertiary/20 text-academic-tertiary rounded-full text-sm font-medium">Student
+                        Account</span>
+                    <span id="userDisplayName" class="text-academic-light font-medium"></span>
+                    <button onclick="window.handleLogout()"
+                        class="px-4 py-2 border border-academic-tertiary/30 rounded-md hover:bg-academic-dark/20 transition-colors text-academic-tertiary">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative mb-12 h-96">
+        <div class="absolute inset-0 bg-black slant overflow-hidden">
+            <img src="https://math.kfupm.edu.sa/images/default-source/default-album/b5-tower-hd36690806-d10e-4d28-87e2-f143d643a21e.tmb-banner.jpg?Culture=en&sfvrsn=2d78144e_2"
+                alt="KFUPM Campus" class="object-cover w-full h-full opacity-60">
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-6 pt-20">
+            <div class="bg-white/10 backdrop-blur-md rounded-xl p-8 max-w-2xl border border-white/20">
+                <h1 class="text-4xl font-serif font-bold text-white mb-2">Welcome, <span id="userName"
+                        class="text-academic-tertiary">Student</span></h1>
+                <p class="text-white/90 font-medium" id="studentId">Student ID: Loading...</p>
+                <div class="mt-4 space-y-2 text-white/80">
+                    <p id="userMajor">Major: Loading...</p>
+                    <p id="userGPA">GPA: Loading...</p>
+                    <div id="profileCompletion" class="mt-6">
+                        <div class="w-full bg-black/30 rounded-full h-2.5">
+                            <div class="bg-academic-tertiary h-2.5 rounded-full transition-all duration-500"
+                                style="width: 0%"></div>
+                        </div>
+                        <p class="text-sm mt-2">Profile completion: 0%</p>
+                    </div>
+                </div>
+                <div class="mt-6 flex gap-4">
+                    <a href="edit-student-profile.html"
+                        class="inline-flex items-center justify-center bg-academic-tertiary text-white px-6 py-2.5 rounded-lg hover:bg-academic-primary transition-colors">
+                        <i class="fas fa-user-edit mr-2"></i>
+                        Edit Profile
+                    </a>
+                    <button id="toggleDebug"
+                        class="inline-flex items-center justify-center text-white/70 hover:text-white text-sm">
+                        <i class="fas fa-bug mr-2"></i>
+                        Debug Info
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-12 space-y-10">
+
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10 max-w-4xl mx-auto">
+            <button onclick="location.href='cv-builder.html';"
+                class="group p-6 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-academic-tertiary hover:bg-academic-warm/10 transition-all">
+                <i class="fas fa-file-alt text-academic-tertiary text-2xl mb-3"></i>
+                <h3
+                    class="font-serif text-lg font-semibold text-academic-primary group-hover:text-academic-tertiary transition-colors">
+                    Create CV</h3>
+                <p class="text-sm text-gray-600 mt-2">Build your professional CV</p>
+            </button>
+
+            <button onclick="location.href='job-board.html'"
+                class="group p-6 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-academic-tertiary hover:bg-academic-warm/10 transition-all">
+                <i class="fas fa-search text-academic-tertiary text-2xl mb-3"></i>
+                <h3
+                    class="font-serif text-lg font-semibold text-academic-primary group-hover:text-academic-tertiary transition-colors">
+                    Find Jobs</h3>
+                <p class="text-sm text-gray-600 mt-2">Browse available positions</p>
+            </button>
+
+        </div>
+
+        <!-- Statistics Grid -->
+
+
+        <!-- My CVs Section -->
+        <section class="bg-gray-100 text-black-500 rounded-xl shadow-sm border border-gray-200 p-8 mb-10">
+            <div class="flex text-black-500 justify-between items-center mb-6">
+                <h2 class="text-2xl text-black-500 font-bold text-gray-800">My CVs</h2>
+                <a href="cv-builder.html" class="text-black-500 hover:text-blue-700 transition-colors">
+                    <i class="fas text-black-500 fa-plus-circle mr-2"></i>Create New CV
+                </a>
+            </div>
+            <div id="cvList" class="grid text-black-500 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- CVs will be dynamically inserted here -->
+                <div class="text-center text-black-500   py-4 col-span-full">Loading CVs...</div>
+            </div>
+        </section>
+
+        <!-- Interview Management -->
+        <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 mb-10">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-serif font-bold text-academic-primary">Interviews</h2>
+                <div class="flex gap-4">
+                    <span class="text-academic-tertiary">
+                        <span
+                            class="pending-count inline-flex items-center justify-center bg-academic-tertiary/20 text-academic-tertiary rounded-full w-6 h-6 text-sm mr-2">0</span>
+                        Pending
+                    </span>
+                    <span class="text-green-600">
+                        <span
+                            class="confirmed-count inline-flex items-center justify-center bg-green-100 text-green-600 rounded-full w-6 h-6 text-sm mr-2">0</span>
+                        Confirmed
+                    </span>
+                </div>
+            </div>
+
+            <!-- All Interviews Section -->
+            <div class="space-y-8">
+                <!-- Pending Interview Requests -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-medium text-academic-tertiary border-b pb-2">Pending Requests</h3>
+                    <div id="pendingInterviewsList" class="space-y-4">
+                        <div class="text-center text-gray-500 py-4">Loading requests...</div>
+                    </div>
+                </div>
+
+                <!-- Confirmed Interviews -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-medium text-green-600 border-b pb-2">Confirmed Interviews</h3>
+                    <div id="confirmedInterviewsList" class="space-y-4">
+                        <div class="text-center text-gray-500 py-4">Loading confirmed interviews...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pending Interview Requests -->
+        <div id="pendingInterviews" class="mb-6 space-y-4 hidden">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Pending Interview Requests</h3>
+            <div id="pendingInterviewsList" class="space-y-4">
+                <div class="text-center text-gray-500 py-4">Loading requests...</div>
+            </div>
+        </div>
+
+        <!-- Confirmed Interviews -->
+        <div id="confirmedInterviews" class="space-y-4 hidden">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Confirmed Interviews</h3>
+            <div id="confirmedInterviewsList" class="space-y-4">
+                <div class="text-center text-gray-500 py-4">Loading confirmed interviews...</div>
+            </div>
+        </div>
+        </section>
+
+        <!-- Job Applications -->
+        <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 mb-10">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-serif font-bold text-academic-primary">My Applications</h2>
+                <a href="job-board.html" class="text-academic-tertiary hover:text-academic-primary transition-colors">
+                    <i class="fas fa-search mr-2"></i>Browse More Jobs
+                </a>
+            </div>
+            <div id="applicationsTable" class="space-y-4">
+                <!-- Applications will be dynamically inserted here -->
+                <div class="text-center text-gray-500 py-4">Loading applications...</div>
+            </div>
+        </section>
+
+        <!-- Activity Chart -->
+
+    </main>
+
+    <footer class="bg-academic-primary text-white mt-12">
+        <div class="max-w-7xl mx-auto py-8 px-6">
+            <div class="text-center text-academic-tertiary/90">
+                © 2024 CareerLaunch - KFUPM. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interview Details Modal -->
+    <div id="interviewDetailsModal"
+        class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white">
+            <div class="flex justify-between items-start mb-4">
+                <h3 id="modalTitle" class="text-2xl font-serif font-bold text-academic-primary"></h3>
+                <button onclick="closeInterviewModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="interviewModalContent" class="mt-4">
+                <!-- Content will be dynamically inserted here -->
+            </div>
+            <form id="timeSelectionForm" class="hidden">
+                <div id="timeOptions" class="space-y-3 mb-4">
+                    <!-- Time options will be inserted here -->
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/config/tailwind.config.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/dashboard.js"></script>
+</body>
+
+</html>

@@ -35,5 +35,4 @@ You can check out the live version of the project here:
 ## 🤝 Contributing
 Although external contributions are not currently being accepted, we encourage you to explore the codebase and provide feedback!
 
-## 📜 License
-This project is licensed under the MIT License. For more information, see the LICENSE file.
+Thank you! 
